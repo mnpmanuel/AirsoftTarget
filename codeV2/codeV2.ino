@@ -105,17 +105,17 @@ void loop()
       RandomTime = random(500, 4000);  // set a random time to present next target between 500ms and 4s
       RandomTarget = random(1, 3);  // set a random target
       
+      delay(RandomTime);
       switch (RandomTarget) {
         case 1:
-          delay(RandomTime);
           //  start timer
           StartTime = millis();
           hit = 0;  // reset the number of times the target has been hit. you have 3 shots until it moves to the next one
-          //  light the target to hit
-          digitalWrite(Led1yellowPin, 1);
-          digitalWrite(Led1redPin, 0);
-          digitalWrite(Led1greenPin, 0);
           while (hit != 1) {
+            //  light the target to hit
+            digitalWrite(Led1yellowPin, 1);
+            digitalWrite(Led1redPin, 0);
+            digitalWrite(Led1greenPin, 0);
             ActualTime = millis();  // measure the actual time
             Timeout = ActualTime - StartTime;   // calculate the time that has passed since the target was active
             //if the target has been active for too long (more than 45s), you've timed out
@@ -160,15 +160,14 @@ void loop()
           break;
         
         case 2:
-          delay(RandomTime);
           //  start timer
           StartTime = millis();
           hit = 0;  // reset the number of times the target has been hit. you have 3 shots until it moves to the next one
-          //  light the target to hit
-          digitalWrite(Led2yellowPin, 1);
-          digitalWrite(Led2redPin, 0);
-          digitalWrite(Led2greenPin, 0);
           while (hit != 1) {
+            //  light the target to hit
+            digitalWrite(Led2yellowPin, 1);
+            digitalWrite(Led2redPin, 0);
+            digitalWrite(Led2greenPin, 0);
             ActualTime = millis();  // measure the actual time
             Timeout = ActualTime - StartTime;   // calculate the time that has passed since the target was active
             //if the target has been active for too long (more than 45s), you've timed out
@@ -213,15 +212,14 @@ void loop()
           break;
         
         case 3:
-          delay(RandomTime);
           //  start timer
           StartTime = millis();
           hit = 0;  // reset the number of times the target has been hit. you have 3 shots until it moves to the next one
-          //  light the target to hit
-          digitalWrite(Led3yellowPin, 1);
-          digitalWrite(Led3redPin, 0);
-          digitalWrite(Led3greenPin, 0);
           while (hit != 1) {
+            //  light the target to hit
+            digitalWrite(Led3yellowPin, 1);
+            digitalWrite(Led3redPin, 0);
+            digitalWrite(Led3greenPin, 0);
             ActualTime = millis();  // measure the actual time
             Timeout = ActualTime - StartTime;   // calculate the time that has passed since the target was active
             //if the target has been active for too long (more than 45s), you've timed out
@@ -276,6 +274,7 @@ void loop()
         RandomOFF = RandomOFF + 2;
       }
     }
+    RandomON = 0;
   }
   
   delay(10);  // delay to avoid overloading the serial port buffer
