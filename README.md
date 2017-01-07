@@ -18,6 +18,7 @@ What's left on the project:
 - [ ] Build the actual targets
 - [ ] Install and calibrate system
 - [ ] Write and publish instructables page
+- [ ] Make readME prettier by turning it into a gh-page
 
 I based the code on the Arduino Knock Sensor. Sources of inspiration:
 - https://learn.adafruit.com/adafruit-arduino-lesson-3-rgb-leds/overview
