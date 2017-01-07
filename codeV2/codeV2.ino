@@ -30,6 +30,9 @@ int TorsoSensorReading = 0;      // variable to store the value read from the se
 int LegSensorReading = 0;      // variable to store the value read from the sensor pin
 int MozambiqueCount = 0;      //variable to count the shots required to enter competition mode
 int MozambiqueCountExit = 0;    //variable to count the shots required to exit competition mode
+int RandomTarget = 0;          //variable to decide the next target
+int RandomTime = 0;          //variable to decide the delay until next random target
+int hit = 0;                //variable to tell if the right target was hit
  
 void setup()
 {
@@ -95,7 +98,108 @@ void loop()
   }
   
   if (MozambiqueCount >= 10) {
-    
+    while(MozambiqueCountExit < 10){
+      setColor(0, 0, 0);  // lights out
+      RandomTime = random(500, 4000);
+      RandomTarget = random(1, 3);
+      delay(RandomTime);
+      
+      switch (RandomTarget) {
+        case 1:
+          digitalWrite(Led1yellowPin, 1);
+          digitalWrite(Led1redPin, 0);
+          digitalWrite(Led1greenPin, 0);
+          hit = 0;
+          while (hit != 1) {
+            // if the sensor reading is greater than the threshold:
+            if (HeadSensorReading >= THRESHOLD) {
+              // update the LED pin itself:
+              wright;
+              wright;
+              wright;
+              hit = 1;
+            }
+            // if the sensor reading is greater than the threshold:
+            if (TorsoSensorReading >= THRESHOLD) {
+              // update the LED pin itself:
+              wrong;
+              wrong;
+              wrong;
+            }
+            // if the sensor reading is greater than the threshold:
+            if (LegSensorReading >= THRESHOLD) {
+              // update the LED pin itself:
+              wrong;
+              wrong;
+              wrong;
+            }
+            if (hit = 3) {
+              hit = 1; 
+            }
+          }
+          break;
+        
+        case 2:
+          digitalWrite(Led2yellowPin, 1);
+          digitalWrite(Led2redPin, 0);
+          digitalWrite(Led2greenPin, 0);
+          hit = 0;
+          while (hit != 1) {
+            // if the sensor reading is greater than the threshold:
+            if (TorsoSensorReading >= THRESHOLD) {
+              // update the LED pin itself:
+              wright;
+              wright;
+              wright;
+              hit = 1;
+            }
+            // if the sensor reading is greater than the threshold:
+            if (HeadSensorReading >= THRESHOLD) {
+              // update the LED pin itself:
+              wrong;
+              wrong;
+              wrong;
+            }
+            // if the sensor reading is greater than the threshold:
+            if (LegSensorReading >= THRESHOLD) {
+              // update the LED pin itself:
+              wrong;
+              wrong;
+              wrong;
+            }
+            if (hit = 3) {
+              hit = 1; 
+            }
+          }
+          break;
+          // if the sensor reading is greater than the threshold:
+          if (TorsoSensorReading >= THRESHOLD) {
+            // update the LED pin itself:
+            digitalWrite(Led2yellowPin, 0);
+            digitalWrite(Led2redPin, 0);
+            digitalWrite(Led2greenPin, 1);
+            delay(600);
+            // send the string "Knock!" back to the computer, followed by newline
+            Serial.println("Knock Torso!");
+          }
+        
+        case 3:
+          // if the sensor reading is greater than the threshold:
+          if (LegSensorReading >= THRESHOLD) {
+            // update the LED pin itself:
+            digitalWrite(Led3yellowPin, 0);
+            digitalWrite(Led3redPin, 0);
+            digitalWrite(Led3greenPin, 1);
+            delay(600);
+            // send the string "Knock!" back to the computer, followed by newline
+            Serial.println("Knock Leg!");
+          }
+        
+        default:
+          setColor(1, 0, 0);  // yellow
+          break;
+      }
+    }
   }
   
   delay(10);  // delay to avoid overloading the serial port buffer
@@ -117,4 +221,31 @@ void setColor(int yellow, int red, int green)
   digitalWrite(Led3yellowPin, yellow);
   digitalWrite(Led3redPin, red);
   digitalWrite(Led3greenPin, green);
+}
+
+void wright()
+{
+  digitalWrite(Led1yellowPin, 0);
+  digitalWrite(Led1redPin, 0);
+  digitalWrite(Led1greenPin, 1);
+  digitalWrite(Led2yellowPin, 0);
+  digitalWrite(Led2redPin, 0);
+  digitalWrite(Led2greenPin, 1);
+  digitalWrite(Led3yellowPin, 0);
+  digitalWrite(Led3redPin, 0);
+  digitalWrite(Led3greenPin, 1);
+  delay(100);
+}
+void wrong()
+{
+  digitalWrite(Led1yellowPin, 0);
+  digitalWrite(Led1redPin, 1);
+  digitalWrite(Led1greenPin, 0);
+  digitalWrite(Led2yellowPin, 0);
+  digitalWrite(Led2redPin, 1);
+  digitalWrite(Led2greenPin, 0);
+  digitalWrite(Led3yellowPin, 0);
+  digitalWrite(Led3redPin, 1);
+  digitalWrite(Led3greenPin, 0);
+  delay(100);
 }
