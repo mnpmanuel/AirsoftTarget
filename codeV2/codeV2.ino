@@ -28,6 +28,8 @@ const int LightsOn = 50;
 int HeadSensorReading = 0;      // variable to store the value read from the sensor pin
 int TorsoSensorReading = 0;      // variable to store the value read from the sensor pin
 int LegSensorReading = 0;      // variable to store the value read from the sensor pin
+int MozambiqueCount = 0;      //variable to count the shots required to enter competition mode
+int MozambiqueCountExit = 0;    //variable to count the shots required to exit competition mode
  
 void setup()
 {
@@ -66,6 +68,8 @@ void loop()
     delay(600);
     // send the string "Knock!" back to the computer, followed by newline
     Serial.println("Knock Head!");
+    //one hit for the random mode
+    MozambiqueCount++;
   }
   
   // if the sensor reading is greater than the threshold:
@@ -88,6 +92,10 @@ void loop()
     delay(600);
     // send the string "Knock!" back to the computer, followed by newline
     Serial.println("Knock Leg!");
+  }
+  
+  if (MozambiqueCount >= 10) {
+    
   }
   
   delay(10);  // delay to avoid overloading the serial port buffer
