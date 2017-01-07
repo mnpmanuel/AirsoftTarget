@@ -74,7 +74,7 @@ void loop()
     digitalWrite(Led1yellowPin, 0);
     digitalWrite(Led1redPin, 0);
     digitalWrite(Led1greenPin, 1);
-    delay(600);
+    delay(500);
     //  one hit for the random mode
     RandomON = RandomON + 1;
   }
@@ -85,7 +85,7 @@ void loop()
     digitalWrite(Led2yellowPin, 0);
     digitalWrite(Led2redPin, 0);
     digitalWrite(Led2greenPin, 1);
-    delay(600);
+    delay(500);
     //  resets the count for the random mode
     RandomON = 0;
   }
@@ -96,7 +96,7 @@ void loop()
     digitalWrite(Led3yellowPin, 0);
     digitalWrite(Led3redPin, 0);
     digitalWrite(Led3greenPin, 1);
-    delay(600);
+    delay(500);
     //  resets the count for the random mode
     RandomON = 0;
   }
@@ -127,18 +127,18 @@ void loop()
             // if the target is hit
             if (HeadSensorReading >= THRESHOLD) {
               // flash green lights 3 times
-              wright();
+              wright(3);
               hit = 1;
             }
             // if you hit the wrong target
             else if (TorsoSensorReading >= THRESHOLD || LegSensorReading >= THRESHOLD) {
               // flash red lights 3 times
-              wrong();
+              wrong(3);
               hit = hit + 1; 
             }
             //  if the maximum amount of tries has passed, move to the next target
             else if (hit = 3) {
-              wrong();
+              wrong(3);
               hit = 1; 
             }
             //if the target has been active for too long (more than 45s), you've timed out
@@ -165,18 +165,18 @@ void loop()
             // if the target is hit
             if (TorsoSensorReading >= THRESHOLD) {
               // flash green lights 3 times
-              wright();
+              wright(3);
               hit = 1;
             }
             // if you hit the wrong target
             else if (HeadSensorReading >= THRESHOLD || LegSensorReading >= THRESHOLD) {
               // flash red lights 3 times
-              wrong();
+              wrong(3);
               hit = hit + 1; 
             }
             //  if the maximum amount of tries has passed, move to the next target
             else if (hit = 3) {
-              wrong();
+              wrong(3);
               hit = 1; 
             }
             //if the target has been active for too long (more than 45s), you've timed out
@@ -203,18 +203,18 @@ void loop()
             // if the target is hit
             if (LegSensorReading >= THRESHOLD) {
               // flash green lights 3 times
-              wright();
+              wright(3);
               hit = 1;
             }
             // if you hit the wrong target
             else if (HeadSensorReading >= THRESHOLD || TorsoSensorReading >= THRESHOLD) {
               // flash red lights 3 times
-              wrong();
+              wrong(3);
               hit = hit + 1;
             }
             //  if the maximum amount of tries has passed, move to the next target
             else if (hit = 3) {
-              wrong();
+              wrong(3);
               hit = 1; 
             }
             //if the target has been active for too long (more than 45s), you've timed out
@@ -262,35 +262,23 @@ void setColor(int yellow, int red, int green)
 }
 
 //function to flash green light
-void wright()
+void wright(int TimesFlashWright)
 { 
   for (int x = 0; x <= 3; x++) {
-    digitalWrite(Led1yellowPin, 0);
-    digitalWrite(Led1redPin, 0);
-    digitalWrite(Led1greenPin, 1);
-    digitalWrite(Led2yellowPin, 0);
-    digitalWrite(Led2redPin, 0);
-    digitalWrite(Led2greenPin, 1);
-    digitalWrite(Led3yellowPin, 0);
-    digitalWrite(Led3redPin, 0);
-    digitalWrite(Led3greenPin, 1);
+    setColor(0,0,1);
+    delay(50);
+    setColor(0,0,0);
     delay(50);
   }
 }
 
 //function to flash red light
-void wrong()
+void wrong(int TimesFlashWrong)
 {
-  for (int x = 0; x <= 3; x++) {
-    digitalWrite(Led1yellowPin, 0);
-    digitalWrite(Led1redPin, 1);
-    digitalWrite(Led1greenPin, 0);
-    digitalWrite(Led2yellowPin, 0);
-    digitalWrite(Led2redPin, 1);
-    digitalWrite(Led2greenPin, 0);
-    digitalWrite(Led3yellowPin, 0);
-    digitalWrite(Led3redPin, 1);
-    digitalWrite(Led3greenPin, 0);
+  for (int x = 0; x <= TimesFlashWrong; x++) {
+    setColor(0,1,0);
+    delay(50);
+    setColor(0,0,0);
     delay(50);
   }
 }
