@@ -12,7 +12,7 @@ Since I just need simple colors (the 3 primary ones with the LED), I've coded th
 If you want to have more color variations make sure to connect the LEDs to PWM pins and change the values on the
 color functions according to the color that you want.
 
-What's left on the project:
+What's left on the project (as of 07/01/2017):
 - [x] Write and upload the source code (currently v1.0)
 - [ ] Design and print circuit board
 - [ ] Build the actual targets
