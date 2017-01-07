@@ -1,7 +1,7 @@
 # Airsoft Target System - by Manuel Palmeira @ EAS
 
 Public code for a simple, smart, airsoft target system. Feel free to use and change this code/project.
-**__Just don't use it to exploit others!__**
+**_Just don't use it to exploit others!_**
 
 This system uses piezos and RGY LEDs. For more information on this project and the circuit please check out the
 instructibles page (soon to be added).
