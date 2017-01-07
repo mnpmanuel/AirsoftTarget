@@ -74,7 +74,7 @@ void loop()
     digitalWrite(Led1yellowPin, 0);
     digitalWrite(Led1redPin, 0);
     digitalWrite(Led1greenPin, 1);
-    delay(500);
+    delay(400);
     //  one hit for the random mode
     RandomON = RandomON + 1;
   }
@@ -85,7 +85,7 @@ void loop()
     digitalWrite(Led2yellowPin, 0);
     digitalWrite(Led2redPin, 0);
     digitalWrite(Led2greenPin, 1);
-    delay(500);
+    delay(400);
     //  resets the count for the random mode
     RandomON = 0;
   }
@@ -96,7 +96,7 @@ void loop()
     digitalWrite(Led3yellowPin, 0);
     digitalWrite(Led3redPin, 0);
     digitalWrite(Led3greenPin, 1);
-    delay(500);
+    delay(400);
     //  resets the count for the random mode
     RandomON = 0;
   }
@@ -104,6 +104,7 @@ void loop()
   //  entered random game mode
   if (RandomON >= 10) {
     RandomON = 0;
+    RandomOFF = 0;
     //  you have 10 targets to take out before the game mode ends
     while(RandomOFF < 10){
       setColor(0, 0, 0);  // lights out
@@ -131,18 +132,18 @@ void loop()
               hit = 1;
             }
             // if you hit the wrong target
-            else if (TorsoSensorReading >= THRESHOLD || LegSensorReading >= THRESHOLD) {
+            if (TorsoSensorReading >= THRESHOLD || LegSensorReading >= THRESHOLD) {
               // flash red lights 3 times
               wrong(3);
               hit = hit + 1; 
             }
             //  if the maximum amount of tries has passed, move to the next target
-            else if (hit = 3) {
+            if (hit = 3) {
               wrong(3);
               hit = 1; 
             }
             //if the target has been active for too long (more than 45s), you've timed out
-            else if (Timeout >= 45000) {
+            if (Timeout >= 45000) {
               hit = 1;
             }
           }
@@ -169,18 +170,18 @@ void loop()
               hit = 1;
             }
             // if you hit the wrong target
-            else if (HeadSensorReading >= THRESHOLD || LegSensorReading >= THRESHOLD) {
+            if (HeadSensorReading >= THRESHOLD || LegSensorReading >= THRESHOLD) {
               // flash red lights 3 times
               wrong(3);
               hit = hit + 1; 
             }
             //  if the maximum amount of tries has passed, move to the next target
-            else if (hit = 3) {
+            if (hit = 3) {
               wrong(3);
               hit = 1; 
             }
             //if the target has been active for too long (more than 45s), you've timed out
-            else if (Timeout >= 45000) {
+            if (Timeout >= 45000) {
               hit = 1;
             }
           }
@@ -207,27 +208,23 @@ void loop()
               hit = 1;
             }
             // if you hit the wrong target
-            else if (HeadSensorReading >= THRESHOLD || TorsoSensorReading >= THRESHOLD) {
+            if (HeadSensorReading >= THRESHOLD || TorsoSensorReading >= THRESHOLD) {
               // flash red lights 3 times
               wrong(3);
               hit = hit + 1;
             }
             //  if the maximum amount of tries has passed, move to the next target
-            else if (hit = 3) {
+            if (hit = 3) {
               wrong(3);
               hit = 1; 
             }
             //if the target has been active for too long (more than 45s), you've timed out
-            else if (Timeout >= 45000) {
+            if (Timeout >= 45000) {
               hit = 1;
             }
           }
           //  one less target to the end of random mode
           RandomOFF = RandomOFF + 1;
-          break;
-        
-        default:
-          setColor(0, 0, 0);  // lights out
           break;
       }
       //  to exit the random mode just shoot any target. each shot here counts for 2 targets
@@ -239,7 +236,7 @@ void loop()
     }
   }
   
-  delay(10);  // delay to avoid overloading the serial port buffer
+  //delay(10);  // delay to avoid overloading the serial port buffer
 }
 
 //easy way to set the color on the LEDs 
