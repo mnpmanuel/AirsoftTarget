@@ -86,6 +86,8 @@ void loop()
     digitalWrite(Led2redPin, 0);
     digitalWrite(Led2greenPin, 1);
     delay(600);
+    //  resets the count for the random mode
+    RandomON = 0;
   }
   
   // if the sensor reading is greater than the threshold:
@@ -95,15 +97,18 @@ void loop()
     digitalWrite(Led3redPin, 0);
     digitalWrite(Led3greenPin, 1);
     delay(600);
+    //  resets the count for the random mode
+    RandomON = 0;
   }
   
   //  entered random game mode
   if (RandomON >= 10) {
+    RandomON = 0;
     //  you have 10 targets to take out before the game mode ends
     while(RandomOFF < 10){
       setColor(0, 0, 0);  // lights out
       RandomTime = random(500, 4000);  // set a random time to present next target between 500ms and 4s
-      RandomTarget = random(1, 3);  // set a random target
+      RandomTarget = random(1, 4);  // set a random target
       
       delay(RandomTime);
       switch (RandomTarget) {
@@ -118,41 +123,27 @@ void loop()
             digitalWrite(Led1greenPin, 0);
             ActualTime = millis();  // measure the actual time
             Timeout = ActualTime - StartTime;   // calculate the time that has passed since the target was active
-            //if the target has been active for too long (more than 45s), you've timed out
-            if (Timeout >= 45000) {
-              hit = 1;
-            }
             
             // if the target is hit
             if (HeadSensorReading >= THRESHOLD) {
               // flash green lights 3 times
-              wright;
-              wright;
-              wright;
+              wright();
               hit = 1;
             }
             // if you hit the wrong target
-            if (TorsoSensorReading >= THRESHOLD) {
+            else if (TorsoSensorReading >= THRESHOLD || LegSensorReading >= THRESHOLD) {
               // flash red lights 3 times
-              wrong;
-              wrong;
-              wrong;
-              hit = hit + 1; 
-            }
-            // if you hit the wrong target
-            if (LegSensorReading >= THRESHOLD) {
-              // flash red lights 3 times
-              wrong;
-              wrong;
-              wrong;
+              wrong();
               hit = hit + 1; 
             }
             //  if the maximum amount of tries has passed, move to the next target
-            if (hit = 3) {
-              wrong;
-              wrong;
-              wrong;
+            else if (hit = 3) {
+              wrong();
               hit = 1; 
+            }
+            //if the target has been active for too long (more than 45s), you've timed out
+            else if (Timeout >= 45000) {
+              hit = 1;
             }
           }
           //  one less target to the end of random mode
@@ -170,41 +161,27 @@ void loop()
             digitalWrite(Led2greenPin, 0);
             ActualTime = millis();  // measure the actual time
             Timeout = ActualTime - StartTime;   // calculate the time that has passed since the target was active
-            //if the target has been active for too long (more than 45s), you've timed out
-            if (Timeout >= 45000) {
-              hit = 1;
-            }
             
             // if the target is hit
             if (TorsoSensorReading >= THRESHOLD) {
               // flash green lights 3 times
-              wright;
-              wright;
-              wright;
+              wright();
               hit = 1;
             }
             // if you hit the wrong target
-            if (HeadSensorReading >= THRESHOLD) {
+            else if (HeadSensorReading >= THRESHOLD || LegSensorReading >= THRESHOLD) {
               // flash red lights 3 times
-              wrong;
-              wrong;
-              wrong;
-              hit = hit + 1; 
-            }
-            // if you hit the wrong target
-            if (LegSensorReading >= THRESHOLD) {
-              // flash red lights 3 times
-              wrong;
-              wrong;
-              wrong;
+              wrong();
               hit = hit + 1; 
             }
             //  if the maximum amount of tries has passed, move to the next target
-            if (hit = 3) {
-              wrong;
-              wrong;
-              wrong;
+            else if (hit = 3) {
+              wrong();
               hit = 1; 
+            }
+            //if the target has been active for too long (more than 45s), you've timed out
+            else if (Timeout >= 45000) {
+              hit = 1;
             }
           }
           //  one less target to the end of random mode
@@ -222,41 +199,27 @@ void loop()
             digitalWrite(Led3greenPin, 0);
             ActualTime = millis();  // measure the actual time
             Timeout = ActualTime - StartTime;   // calculate the time that has passed since the target was active
-            //if the target has been active for too long (more than 45s), you've timed out
-            if (Timeout >= 45000) {
-              hit = 1;
-            }
             
             // if the target is hit
             if (LegSensorReading >= THRESHOLD) {
               // flash green lights 3 times
-              wright;
-              wright;
-              wright;
+              wright();
               hit = 1;
             }
             // if you hit the wrong target
-            if (HeadSensorReading >= THRESHOLD) {
+            else if (HeadSensorReading >= THRESHOLD || TorsoSensorReading >= THRESHOLD) {
               // flash red lights 3 times
-              wrong;
-              wrong;
-              wrong;
+              wrong();
               hit = hit + 1;
             }
-            // if you hit the wrong target
-            if (TorsoSensorReading >= THRESHOLD) {
-              // flash red lights 3 times
-              wrong;
-              wrong;
-              wrong;
-              hit = hit + 1; 
-            }
             //  if the maximum amount of tries has passed, move to the next target
-            if (hit = 3) {
-              wrong;
-              wrong;
-              wrong;
+            else if (hit = 3) {
+              wrong();
               hit = 1; 
+            }
+            //if the target has been active for too long (more than 45s), you've timed out
+            else if (Timeout >= 45000) {
+              hit = 1;
             }
           }
           //  one less target to the end of random mode
@@ -268,13 +231,12 @@ void loop()
           break;
       }
       //  to exit the random mode just shoot any target. each shot here counts for 2 targets
-      if (HeadSensorReading >= THRESHOLD && TorsoSensorReading >= THRESHOLD && LegSensorReading >= THRESHOLD) {
+      /*if (HeadSensorReading >= THRESHOLD || TorsoSensorReading >= THRESHOLD || LegSensorReading >= THRESHOLD) {
         setColor(1, 0, 0);  // yellow
         delay(500);
         RandomOFF = RandomOFF + 2;
-      }
+      }*/
     }
-    RandomON = 0;
   }
   
   delay(10);  // delay to avoid overloading the serial port buffer
@@ -301,30 +263,34 @@ void setColor(int yellow, int red, int green)
 
 //function to flash green light
 void wright()
-{
-  digitalWrite(Led1yellowPin, 0);
-  digitalWrite(Led1redPin, 0);
-  digitalWrite(Led1greenPin, 1);
-  digitalWrite(Led2yellowPin, 0);
-  digitalWrite(Led2redPin, 0);
-  digitalWrite(Led2greenPin, 1);
-  digitalWrite(Led3yellowPin, 0);
-  digitalWrite(Led3redPin, 0);
-  digitalWrite(Led3greenPin, 1);
-  delay(100);
+{ 
+  for (int x = 0; x <= 3; x++) {
+    digitalWrite(Led1yellowPin, 0);
+    digitalWrite(Led1redPin, 0);
+    digitalWrite(Led1greenPin, 1);
+    digitalWrite(Led2yellowPin, 0);
+    digitalWrite(Led2redPin, 0);
+    digitalWrite(Led2greenPin, 1);
+    digitalWrite(Led3yellowPin, 0);
+    digitalWrite(Led3redPin, 0);
+    digitalWrite(Led3greenPin, 1);
+    delay(50);
+  }
 }
 
 //function to flash red light
 void wrong()
 {
-  digitalWrite(Led1yellowPin, 0);
-  digitalWrite(Led1redPin, 1);
-  digitalWrite(Led1greenPin, 0);
-  digitalWrite(Led2yellowPin, 0);
-  digitalWrite(Led2redPin, 1);
-  digitalWrite(Led2greenPin, 0);
-  digitalWrite(Led3yellowPin, 0);
-  digitalWrite(Led3redPin, 1);
-  digitalWrite(Led3greenPin, 0);
-  delay(100);
+  for (int x = 0; x <= 3; x++) {
+    digitalWrite(Led1yellowPin, 0);
+    digitalWrite(Led1redPin, 1);
+    digitalWrite(Led1greenPin, 0);
+    digitalWrite(Led2yellowPin, 0);
+    digitalWrite(Led2redPin, 1);
+    digitalWrite(Led2greenPin, 0);
+    digitalWrite(Led3yellowPin, 0);
+    digitalWrite(Led3redPin, 1);
+    digitalWrite(Led3greenPin, 0);
+    delay(50);
+  }
 }
