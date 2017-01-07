@@ -117,7 +117,7 @@ void loop()
           //  start timer
           StartTime = millis();
           hit = 0;  // reset the number of times the target has been hit. you have 3 shots until it moves to the next one
-          while (hit != 1) {
+          while (hit < 3) {
             //  light the target to hit
             digitalWrite(Led1yellowPin, 1);
             digitalWrite(Led1redPin, 0);
@@ -129,7 +129,7 @@ void loop()
             if (HeadSensorReading >= THRESHOLD) {
               // flash green lights 3 times
               wright(3);
-              hit = 1;
+              hit = 3;
             }
             // if you hit the wrong target
             if (TorsoSensorReading >= THRESHOLD || LegSensorReading >= THRESHOLD) {
@@ -137,14 +137,9 @@ void loop()
               wrong(3);
               hit = hit + 1; 
             }
-            //  if the maximum amount of tries has passed, move to the next target
-            if (hit = 3) {
-              wrong(3);
-              hit = 1; 
-            }
             //if the target has been active for too long (more than 45s), you've timed out
             if (Timeout >= 45000) {
-              hit = 1;
+              hit = 3;
             }
           }
           //  one less target to the end of random mode
@@ -155,7 +150,7 @@ void loop()
           //  start timer
           StartTime = millis();
           hit = 0;  // reset the number of times the target has been hit. you have 3 shots until it moves to the next one
-          while (hit != 1) {
+          while (hit < 3) {
             //  light the target to hit
             digitalWrite(Led2yellowPin, 1);
             digitalWrite(Led2redPin, 0);
@@ -167,7 +162,7 @@ void loop()
             if (TorsoSensorReading >= THRESHOLD) {
               // flash green lights 3 times
               wright(3);
-              hit = 1;
+              hit = 3;
             }
             // if you hit the wrong target
             if (HeadSensorReading >= THRESHOLD || LegSensorReading >= THRESHOLD) {
@@ -175,14 +170,9 @@ void loop()
               wrong(3);
               hit = hit + 1; 
             }
-            //  if the maximum amount of tries has passed, move to the next target
-            if (hit = 3) {
-              wrong(3);
-              hit = 1; 
-            }
             //if the target has been active for too long (more than 45s), you've timed out
             if (Timeout >= 45000) {
-              hit = 1;
+              hit = 3;
             }
           }
           //  one less target to the end of random mode
@@ -193,7 +183,7 @@ void loop()
           //  start timer
           StartTime = millis();
           hit = 0;  // reset the number of times the target has been hit. you have 3 shots until it moves to the next one
-          while (hit != 1) {
+          while (hit < 3) {
             //  light the target to hit
             digitalWrite(Led3yellowPin, 1);
             digitalWrite(Led3redPin, 0);
@@ -205,7 +195,7 @@ void loop()
             if (LegSensorReading >= THRESHOLD) {
               // flash green lights 3 times
               wright(3);
-              hit = 1;
+              hit = 3;
             }
             // if you hit the wrong target
             if (HeadSensorReading >= THRESHOLD || TorsoSensorReading >= THRESHOLD) {
@@ -213,14 +203,9 @@ void loop()
               wrong(3);
               hit = hit + 1;
             }
-            //  if the maximum amount of tries has passed, move to the next target
-            if (hit = 3) {
-              wrong(3);
-              hit = 1; 
-            }
             //if the target has been active for too long (more than 45s), you've timed out
             if (Timeout >= 45000) {
-              hit = 1;
+              hit = 3;
             }
           }
           //  one less target to the end of random mode
