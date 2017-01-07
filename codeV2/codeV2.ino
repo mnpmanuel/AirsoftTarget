@@ -72,7 +72,7 @@ void loop()
     // send the string "Knock!" back to the computer, followed by newline
     Serial.println("Knock Head!");
     //one hit for the random mode
-    MozambiqueCount++;
+    MozambiqueCount = MozambiqueCount + 1;
   }
   
   // if the sensor reading is greater than the threshold:
@@ -125,6 +125,7 @@ void loop()
               wrong;
               wrong;
               wrong;
+              hit = hit + 1; 
             }
             // if the sensor reading is greater than the threshold:
             if (LegSensorReading >= THRESHOLD) {
@@ -132,6 +133,7 @@ void loop()
               wrong;
               wrong;
               wrong;
+              hit = hit + 1; 
             }
             if (hit = 3) {
               hit = 1; 
@@ -159,6 +161,7 @@ void loop()
               wrong;
               wrong;
               wrong;
+              hit = hit + 1; 
             }
             // if the sensor reading is greater than the threshold:
             if (LegSensorReading >= THRESHOLD) {
@@ -166,34 +169,49 @@ void loop()
               wrong;
               wrong;
               wrong;
+              hit = hit + 1; 
             }
             if (hit = 3) {
               hit = 1; 
             }
           }
           break;
-          // if the sensor reading is greater than the threshold:
-          if (TorsoSensorReading >= THRESHOLD) {
-            // update the LED pin itself:
-            digitalWrite(Led2yellowPin, 0);
-            digitalWrite(Led2redPin, 0);
-            digitalWrite(Led2greenPin, 1);
-            delay(600);
-            // send the string "Knock!" back to the computer, followed by newline
-            Serial.println("Knock Torso!");
-          }
         
         case 3:
-          // if the sensor reading is greater than the threshold:
-          if (LegSensorReading >= THRESHOLD) {
-            // update the LED pin itself:
-            digitalWrite(Led3yellowPin, 0);
-            digitalWrite(Led3redPin, 0);
-            digitalWrite(Led3greenPin, 1);
-            delay(600);
-            // send the string "Knock!" back to the computer, followed by newline
-            Serial.println("Knock Leg!");
+          digitalWrite(Led3yellowPin, 1);
+          digitalWrite(Led3redPin, 0);
+          digitalWrite(Led3greenPin, 0);
+          hit = 0;
+          while (hit != 1) {
+            // if the sensor reading is greater than the threshold:
+            if (LegSensorReading >= THRESHOLD) {
+              // update the LED pin itself:
+              wright;
+              wright;
+              wright;
+              hit = 1;
+            }
+            // if the sensor reading is greater than the threshold:
+            if (HeadSensorReading >= THRESHOLD) {
+              // update the LED pin itself:
+              wrong;
+              wrong;
+              wrong;
+              hit = hit + 1;
+            }
+            // if the sensor reading is greater than the threshold:
+            if (TorsoSensorReading >= THRESHOLD) {
+              // update the LED pin itself:
+              wrong;
+              wrong;
+              wrong;
+              hit = hit + 1; 
+            }
+            if (hit = 3) {
+              hit = 1; 
+            }
           }
+          break;
         
         default:
           setColor(1, 0, 0);  // yellow
