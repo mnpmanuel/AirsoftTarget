@@ -29,12 +29,15 @@ const int TorsoSensor = A1;
 const int LegSensor = A2;
 
 //Adjust this value to change the sensitivity of the piezos
-const int THRESHOLD = 50;
+const int THRESHOLD = 25;
 
 // these variables will change:
 int HeadSensorReading = 0;      // variable to store the value read from the sensor pin
 int TorsoSensorReading = 0;      // variable to store the value read from the sensor pin
 int LegSensorReading = 0;      // variable to store the value read from the sensor pin
+int HeadSensorReadingRandom = 0;      // variable to store the value read from the sensor pin
+int TorsoSensorReadingRandom = 0;      // variable to store the value read from the sensor pin
+int LegSensorReadingRandom = 0;      // variable to store the value read from the sensor pin
 int RandomON = 0;              //variable to count the shots required to enter competition mode
 int RandomOFF = 0;             //variable to count the shots required to exit competition mode
 int RandomTarget = 0;          //variable to decide the next target
@@ -74,7 +77,7 @@ void loop()
     digitalWrite(Led1yellowPin, 0);
     digitalWrite(Led1redPin, 0);
     digitalWrite(Led1greenPin, 1);
-    delay(400);
+    delay(300);
     //  one hit for the random mode
     RandomON = RandomON + 1;
   }
@@ -85,7 +88,7 @@ void loop()
     digitalWrite(Led2yellowPin, 0);
     digitalWrite(Led2redPin, 0);
     digitalWrite(Led2greenPin, 1);
-    delay(400);
+    delay(300);
     //  resets the count for the random mode
     RandomON = 0;
   }
@@ -96,115 +99,125 @@ void loop()
     digitalWrite(Led3yellowPin, 0);
     digitalWrite(Led3redPin, 0);
     digitalWrite(Led3greenPin, 1);
-    delay(400);
+    delay(300);
     //  resets the count for the random mode
     RandomON = 0;
   }
   
   //  entered random game mode
-  if (RandomON >= 10) {
-    RandomON = 0;
-    RandomOFF = 0;
+  if (RandomON >= 10) {
+    RandomON = 0;    //  resets the count for the random mode
+    RandomOFF = 0;    //  resets the count for the random mode
     //  you have 10 targets to take out before the game mode ends
-    while(RandomOFF < 10){
+    while (RandomOFF < 10) {
       setColor(0, 0, 0);  // lights out
-      RandomTime = random(500, 4000);  // set a random time to present next target between 500ms and 4s
+      //delay(100);
+      RandomTime = random(500, 2000);  // set a random time to present next target between 500ms and 4s
       RandomTarget = random(1, 4);  // set a random target
+      //RandomTarget = 1;  // set a random target
       
-      delay(RandomTime);
       switch (RandomTarget) {
         case 1:
-          //  start timer
-          StartTime = millis();
+          StartTime = millis();    //  start timer
           hit = 0;  // reset the number of times the target has been hit. you have 3 shots until it moves to the next one
-          while (hit < 3) {
+          delay(RandomTime);
+          while(hit < 3){
+            //  read sensors for random mode
+            HeadSensorReadingRandom = analogRead(HeadSensor);
+            TorsoSensorReadingRandom = analogRead(TorsoSensor);
+            LegSensorReadingRandom = analogRead(LegSensor);
             //  light the target to hit
             digitalWrite(Led1yellowPin, 1);
             digitalWrite(Led1redPin, 0);
             digitalWrite(Led1greenPin, 0);
             ActualTime = millis();  // measure the actual time
             Timeout = ActualTime - StartTime;   // calculate the time that has passed since the target was active
-            
-            // if the target is hit
-            if (HeadSensorReading >= THRESHOLD) {
-              // flash green lights 3 times
+            // if the sensor reading is greater than the threshold:
+            if (HeadSensorReadingRandom >= THRESHOLD) {
+              // update the LED pin itself:
               wright(3);
               hit = 3;
-            }
-            // if you hit the wrong target
-            if (TorsoSensorReading >= THRESHOLD || LegSensorReading >= THRESHOLD) {
-              // flash red lights 3 times
+            }         
+            // if the sensor reading is greater than the threshold:
+            if (TorsoSensorReadingRandom >= THRESHOLD || LegSensorReadingRandom >= THRESHOLD) {
+              // update the LED pin itself:
               wrong(3);
-              hit = hit + 1; 
+              hit = hit + 1;
             }
             //if the target has been active for too long (more than 45s), you've timed out
-            if (Timeout >= 45000) {
+            if (Timeout >= 20000) {
               hit = 3;
             }
           }
           //  one less target to the end of random mode
           RandomOFF = RandomOFF + 1;
           break;
-        
+          
         case 2:
-          //  start timer
-          StartTime = millis();
+          StartTime = millis();    //  start timer
           hit = 0;  // reset the number of times the target has been hit. you have 3 shots until it moves to the next one
-          while (hit < 3) {
+          delay(RandomTime);
+          while(hit < 3){
+            //  read sensors for random mode
+            HeadSensorReadingRandom = analogRead(HeadSensor);
+            TorsoSensorReadingRandom = analogRead(TorsoSensor);
+            LegSensorReadingRandom = analogRead(LegSensor);
             //  light the target to hit
             digitalWrite(Led2yellowPin, 1);
             digitalWrite(Led2redPin, 0);
             digitalWrite(Led2greenPin, 0);
             ActualTime = millis();  // measure the actual time
             Timeout = ActualTime - StartTime;   // calculate the time that has passed since the target was active
-            
-            // if the target is hit
-            if (TorsoSensorReading >= THRESHOLD) {
-              // flash green lights 3 times
+            // if the sensor reading is greater than the threshold:
+            if (TorsoSensorReadingRandom >= THRESHOLD) {
+              // update the LED pin itself:
               wright(3);
               hit = 3;
-            }
-            // if you hit the wrong target
-            if (HeadSensorReading >= THRESHOLD || LegSensorReading >= THRESHOLD) {
-              // flash red lights 3 times
+            }   
+            // if the sensor reading is greater than the threshold:
+            if (HeadSensorReadingRandom >= THRESHOLD || LegSensorReadingRandom >= THRESHOLD) {
+              // update the LED pin itself:
               wrong(3);
-              hit = hit + 1; 
+              hit = hit + 1;
             }
             //if the target has been active for too long (more than 45s), you've timed out
-            if (Timeout >= 45000) {
+            if (Timeout >= 20000) {
               hit = 3;
             }
           }
           //  one less target to the end of random mode
           RandomOFF = RandomOFF + 1;
           break;
-        
+          
         case 3:
-          //  start timer
-          StartTime = millis();
+          StartTime = millis();    //  start timer
           hit = 0;  // reset the number of times the target has been hit. you have 3 shots until it moves to the next one
-          while (hit < 3) {
+          delay(RandomTime);
+          while(hit < 3){
+            //  read sensors for random mode
+            HeadSensorReadingRandom = analogRead(HeadSensor);
+            TorsoSensorReadingRandom = analogRead(TorsoSensor);
+            LegSensorReadingRandom = analogRead(LegSensor);
             //  light the target to hit
             digitalWrite(Led3yellowPin, 1);
             digitalWrite(Led3redPin, 0);
             digitalWrite(Led3greenPin, 0);
             ActualTime = millis();  // measure the actual time
             Timeout = ActualTime - StartTime;   // calculate the time that has passed since the target was active
-            
-            // if the target is hit
-            if (LegSensorReading >= THRESHOLD) {
-              // flash green lights 3 times
+            // if the sensor reading is greater than the threshold:
+            if (LegSensorReadingRandom >= THRESHOLD) {
+              // update the LED pin itself:
               wright(3);
               hit = 3;
-            }
-            // if you hit the wrong target
-            if (HeadSensorReading >= THRESHOLD || TorsoSensorReading >= THRESHOLD) {
-              // flash red lights 3 times
+            } 
+            // if the sensor reading is greater than the threshold:
+            if (HeadSensorReadingRandom >= THRESHOLD || TorsoSensorReadingRandom >= THRESHOLD) {
+              // update the LED pin itself:
               wrong(3);
               hit = hit + 1;
             }
             //if the target has been active for too long (more than 45s), you've timed out
-            if (Timeout >= 45000) {
+            if (Timeout >= 20000) {
               hit = 3;
             }
           }
@@ -212,16 +225,8 @@ void loop()
           RandomOFF = RandomOFF + 1;
           break;
       }
-      //  to exit the random mode just shoot any target. each shot here counts for 2 targets
-      /*if (HeadSensorReading >= THRESHOLD || TorsoSensorReading >= THRESHOLD || LegSensorReading >= THRESHOLD) {
-        setColor(1, 0, 0);  // yellow
-        delay(500);
-        RandomOFF = RandomOFF + 2;
-      }*/
     }
   }
-  
-  //delay(10);  // delay to avoid overloading the serial port buffer
 }
 
 //easy way to set the color on the LEDs 
