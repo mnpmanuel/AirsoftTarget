@@ -40,6 +40,9 @@ int RandomOFF = 0;             //variable to count the shots required to exit co
 int RandomTarget = 0;          //variable to decide the next target
 int RandomTime = 0;          //variable to decide the delay until next random target
 int hit = 0;                //variable to tell if the right target was hit
+unsigned long StartTime;       //variable to know when the target started to be active
+unsigned long ActualTime;       //variable to know what time it is
+unsigned long Timeout;       //variable to know if the target has been active for too long
  
 void setup()
 {
@@ -105,12 +108,21 @@ void loop()
       switch (RandomTarget) {
         case 1:
           delay(RandomTime);
+          //  start timer
+          StartTime = millis();
           hit = 0;  // reset the number of times the target has been hit. you have 3 shots until it moves to the next one
           //  light the target to hit
           digitalWrite(Led1yellowPin, 1);
           digitalWrite(Led1redPin, 0);
           digitalWrite(Led1greenPin, 0);
           while (hit != 1) {
+            ActualTime = millis();  // measure the actual time
+            Timeout = ActualTime - StartTime;   // calculate the time that has passed since the target was active
+            //if the target has been active for too long (more than 45s), you've timed out
+            if (Timeout >= 45000) {
+              hit = 1;
+            }
+            
             // if the target is hit
             if (HeadSensorReading >= THRESHOLD) {
               // flash green lights 3 times
@@ -149,12 +161,21 @@ void loop()
         
         case 2:
           delay(RandomTime);
+          //  start timer
+          StartTime = millis();
           hit = 0;  // reset the number of times the target has been hit. you have 3 shots until it moves to the next one
           //  light the target to hit
           digitalWrite(Led2yellowPin, 1);
           digitalWrite(Led2redPin, 0);
           digitalWrite(Led2greenPin, 0);
           while (hit != 1) {
+            ActualTime = millis();  // measure the actual time
+            Timeout = ActualTime - StartTime;   // calculate the time that has passed since the target was active
+            //if the target has been active for too long (more than 45s), you've timed out
+            if (Timeout >= 45000) {
+              hit = 1;
+            }
+            
             // if the target is hit
             if (TorsoSensorReading >= THRESHOLD) {
               // flash green lights 3 times
@@ -193,12 +214,21 @@ void loop()
         
         case 3:
           delay(RandomTime);
+          //  start timer
+          StartTime = millis();
           hit = 0;  // reset the number of times the target has been hit. you have 3 shots until it moves to the next one
           //  light the target to hit
           digitalWrite(Led3yellowPin, 1);
           digitalWrite(Led3redPin, 0);
           digitalWrite(Led3greenPin, 0);
           while (hit != 1) {
+            ActualTime = millis();  // measure the actual time
+            Timeout = ActualTime - StartTime;   // calculate the time that has passed since the target was active
+            //if the target has been active for too long (more than 45s), you've timed out
+            if (Timeout >= 45000) {
+              hit = 1;
+            }
+            
             // if the target is hit
             if (LegSensorReading >= THRESHOLD) {
               // flash green lights 3 times
