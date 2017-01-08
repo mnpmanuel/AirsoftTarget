@@ -3,9 +3,10 @@
 Public code for a simple, smart, airsoft target system. This project was ment to be free and openly available to anyone interested in it. Feel free to use and change this code/project.
 **_Just don't use it to exploit others!_**
 
-This system uses piezos and RGY LEDs. It has to working modes:
-- In the first one, every target has a red light on and when you hit it it turns green for a brief moment.
-- To enter the second one, you have to hit 10 times straight a specific target. If you do that you enter a random mode. Here you have all the lights off and randomly (time and target) a target will show a yellow light. You have 3 trys to hit the right one or 20 seconds, after this you move to the next randomly selected target. This mode lasts for 100 targets.
+This system uses piezos and RGY LEDs. It has two working modes:
+- In the first one, every target has a red light on and when you hit it, it turns green for a brief moment.
+- To enter the second one, you have to hit 10 times straight a specific target. 
+- The second mode is a random mode. Here you have all the lights off and randomly (time and target) a target will show a yellow light. You have 3 trys to hit the right one or 20 seconds, after this you move to the next randomly selected target. This mode lasts for 100 targets.
 For more information on this project and the circuit please check out the instructibles page (soon to be added).
 
 Since I just need simple colors (the 3 primary ones with the LED), I've coded the colors in a ON/OFF base.
