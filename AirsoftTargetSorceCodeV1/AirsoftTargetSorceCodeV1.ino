@@ -150,7 +150,7 @@ void loop()
               wrong(3);
               hit = hit + 1;
             }
-            //if the target has been active for too long (more than 45s), you've timed out
+            //if the target has been active for too long (more than 20s), you've timed out
             if (Timeout >= 20000) {
               wrong(3);
               hit = 3;
@@ -187,7 +187,7 @@ void loop()
               wrong(3);
               hit = hit + 1;
             }
-            //if the target has been active for too long (more than 45s), you've timed out
+            //if the target has been active for too long (more than 20s), you've timed out
             if (Timeout >= 20000) {
               wrong(3);
               hit = 3;
@@ -224,7 +224,7 @@ void loop()
               wrong(3);
               hit = hit + 1;
             }
-            //if the target has been active for too long (more than 45s), you've timed out
+            //if the target has been active for too long (more than 20s), you've timed out
             if (Timeout >= 20000) {
               wrong(3);
               hit = 3;
