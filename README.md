@@ -15,9 +15,9 @@ color functions according to the color that you want.
 
 What's left on the project (as of 07/01/2017):
 - [x] Write and upload the source code (currently v1.0)
-- [ ] Design and print circuit board
-- [ ] Build the actual targets
-- [ ] Install and calibrate system
+- [x] Design and print circuit board
+- [x] Build the actual targets
+- [x] Install and calibrate system
 - [ ] Write and publish instructables page
 - [ ] Make readME prettier by turning it into a gh-page
 
