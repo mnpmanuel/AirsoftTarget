@@ -10,15 +10,15 @@ color functions according to the color that you want.
 */
 
 //setting the pins for the LED interface
-const int Led1yellowPin = 8;
-const int Led1redPin = 7;
-const int Led1greenPin = 6;
-const int Led2yellowPin = 5;
-const int Led2redPin = 4;
-const int Led2greenPin = 3;
-const int Led3yellowPin = 2;
-const int Led3redPin = 1;
-const int Led3greenPin = 0;
+const int Led1yellowPin = 10;
+const int Led1redPin = 9;
+const int Led1greenPin = 8;
+const int Led2yellowPin = 7;
+const int Led2redPin = 6;
+const int Led2greenPin = 5;
+const int Led3yellowPin = 4;
+const int Led3redPin = 3;
+const int Led3greenPin = 2;
  
 //uncomment this line if using a Common Anode LED
 //#define COMMON_ANODE
@@ -28,8 +28,11 @@ const int HeadSensor = A0;
 const int TorsoSensor = A1;
 const int LegSensor = A2;
 
+//setting the pins for the potentiometer
+int potPin = A3;
+
 //Adjust this value to change the sensitivity of the piezos
-const int THRESHOLD = 25;
+//const int THRESHOLD = 25;
 
 // these variables will change:
 int HeadSensorReading = 0;      // variable to store the value read from the sensor pin
@@ -46,6 +49,7 @@ int hit = 0;                //variable to tell if the right target was hit
 unsigned long StartTime;       //variable to know when the target started to be active
 unsigned long ActualTime;       //variable to know what time it is
 unsigned long Timeout;       //variable to know if the target has been active for too long
+int sensitivity = 0;       // variable to store the value coming from the sensor
  
 void setup()
 {
@@ -65,6 +69,8 @@ void loop()
 {
   //standart mode, all targets are red
   setColor(0, 1, 0);  // red
+
+  sensitivity = analogRead(potPin);    // read the value from the potentiometer
   
   // read the sensor and store it in the variable sensorReading:
   HeadSensorReading = analogRead(HeadSensor);
@@ -72,7 +78,7 @@ void loop()
   LegSensorReading = analogRead(LegSensor);
   
   // if the sensor reading is greater than the threshold:
-  if (HeadSensorReading >= THRESHOLD) {
+  if (HeadSensorReading >= sensitivity) {
     // update the LED pin itself:
     digitalWrite(Led1yellowPin, 0);
     digitalWrite(Led1redPin, 0);
@@ -83,7 +89,7 @@ void loop()
   }
   
   // if the sensor reading is greater than the threshold:
-  if (TorsoSensorReading >= THRESHOLD) {
+  if (TorsoSensorReading >= sensitivity) {
     // update the LED pin itself:
     digitalWrite(Led2yellowPin, 0);
     digitalWrite(Led2redPin, 0);
@@ -94,7 +100,7 @@ void loop()
   }
   
   // if the sensor reading is greater than the threshold:
-  if (LegSensorReading >= THRESHOLD) {
+  if (LegSensorReading >= sensitivity) {
     // update the LED pin itself:
     digitalWrite(Led3yellowPin, 0);
     digitalWrite(Led3redPin, 0);
@@ -133,13 +139,13 @@ void loop()
             ActualTime = millis();  // measure the actual time
             Timeout = ActualTime - StartTime;   // calculate the time that has passed since the target was active
             // if the sensor reading is greater than the threshold:
-            if (HeadSensorReadingRandom >= THRESHOLD) {
+            if (HeadSensorReadingRandom >= sensitivity) {
               // update the LED pin itself:
               wright(3);
               hit = 3;
             }         
             // if the sensor reading is greater than the threshold:
-            if (TorsoSensorReadingRandom >= THRESHOLD || LegSensorReadingRandom >= THRESHOLD) {
+            if (TorsoSensorReadingRandom >= sensitivity || LegSensorReadingRandom >= sensitivity) {
               // update the LED pin itself:
               wrong(3);
               hit = hit + 1;
@@ -170,13 +176,13 @@ void loop()
             ActualTime = millis();  // measure the actual time
             Timeout = ActualTime - StartTime;   // calculate the time that has passed since the target was active
             // if the sensor reading is greater than the threshold:
-            if (TorsoSensorReadingRandom >= THRESHOLD) {
+            if (TorsoSensorReadingRandom >= sensitivity) {
               // update the LED pin itself:
               wright(3);
               hit = 3;
             }   
             // if the sensor reading is greater than the threshold:
-            if (HeadSensorReadingRandom >= THRESHOLD || LegSensorReadingRandom >= THRESHOLD) {
+            if (HeadSensorReadingRandom >= sensitivity || LegSensorReadingRandom >= sensitivity) {
               // update the LED pin itself:
               wrong(3);
               hit = hit + 1;
@@ -207,13 +213,13 @@ void loop()
             ActualTime = millis();  // measure the actual time
             Timeout = ActualTime - StartTime;   // calculate the time that has passed since the target was active
             // if the sensor reading is greater than the threshold:
-            if (LegSensorReadingRandom >= THRESHOLD) {
+            if (LegSensorReadingRandom >= sensitivity) {
               // update the LED pin itself:
               wright(3);
               hit = 3;
             } 
             // if the sensor reading is greater than the threshold:
-            if (HeadSensorReadingRandom >= THRESHOLD || TorsoSensorReadingRandom >= THRESHOLD) {
+            if (HeadSensorReadingRandom >= sensitivity || TorsoSensorReadingRandom >= sensitivity) {
               // update the LED pin itself:
               wrong(3);
               hit = hit + 1;
